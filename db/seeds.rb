@@ -1,8 +1,22 @@
-actor = Actor.new(first_name: "Will", last_name: "Smith", known_for: "Bad Boys")
+require 'ffaker'
+
+10.times do 
+actor = Actor.new(
+  first_name: FFaker::Name.first_name, 
+  last_name: FFaker::Name.last_name, 
+  known_for: FFaker::Movie.title,
+  gender: FFaker::Gender.random
+  )
 actor.save
+end
 
-movie = Movie.new(title: "Black Panther", year: 2018, plot: "After the death of his father, T'Challa returns home to the African nation of Wakanda to take his rightful place as king.")
+10.times do 
+movie = Movie.new(
+  title: FFaker::Movie.title,
+  director: FFaker::Name.name,
+  year: FFaker::Vehicle.year,
+  plot: FFaker::Lorem.sentences,
+  english: true
+  )
 movie.save
-
-movie = Movie.new(title: "Spiderman: Far From Home", year: 2019, plot: "Spider-Man teams up with Nick Fury to prevent the evil Mysterio from destroying Europe.")
-movie.save
+end

@@ -16,11 +16,17 @@ class Api::ActorsController < ApplicationController
       first_name: params[:first_name],
       last_name: params[:last_name],
       known_for: params[:known_for],
-      gender: params[:gender]
+      gender: params[:gender],
+      birth_date: params[:birth_date]
       )
 
-      @actor.save
+    if @actor.save
+      #happy path
       render 'show.json.jbuilder'
+    else
+      #sad path
+      render json: {errors: @actor.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -29,9 +35,15 @@ class Api::ActorsController < ApplicationController
       @actor.last_name = params[:last_name] || @actor.last_name
       @actor.known_for = params[:known_for] || @actor.known_for
       @actor.gender = params[:gender] || @actor.gender
+      @actor.birth_date = params[:birth_date] || @actor.birth_date
 
-      @actor.save
-    render 'show.json.jbuilder'
+    if @actor.save
+      #happy path
+      render 'show.json.jbuilder'
+    else
+      #sad path
+      render json: {errors: @actor.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -61,8 +73,13 @@ class Api::ActorsController < ApplicationController
       english: params[:english]
       )
 
-      @movie.save
+    if @movie.save
+      #happy path
       render 'show_movie.json.jbuilder'
+    else
+      #sad path
+      render json: {errors: @movie.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
   def update_movie
@@ -73,8 +90,13 @@ class Api::ActorsController < ApplicationController
     @movie.plot = params[:plot] || @movie.plot
     @movie.english = params[:english] || @movie.english
 
-      @movie.save
-    render 'show_movie.json.jbuilder'
+    if @movie.save
+      #happy path
+      render 'show_movie.json.jbuilder'
+    else
+      #sad path
+      render json: {errors: @movie.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
   def destroy_movie
