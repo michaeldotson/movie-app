@@ -1,8 +1,7 @@
 class Api::ActorsController < ApplicationController
-  class Api::ActorsController < ApplicationController
-
   def index
-    @actors = Actor.all
+    @actors = Actor.all.order(birth_date: :desc)
+
     render 'index.json.jbuilder'
   end
 
@@ -55,7 +54,7 @@ class Api::ActorsController < ApplicationController
 ##########################
 
   def index_movie
-    @movies = Movie.all
+    @movies = Movie.where(english: true)
     render 'index_movie.json.jbuilder'
   end
 
@@ -105,4 +104,4 @@ class Api::ActorsController < ApplicationController
     render json: {message: "#{@movie.title} successfully deleted."}
   end
 end
-end
+
