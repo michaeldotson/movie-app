@@ -1,9 +1,13 @@
 class Api::ActorsController < ApplicationController
+  
+  before_action :authenticate_admin, except: [:index, :show]
+
   def index
     @actors = Actor.all.order(birth_date: :desc)
 
-    render 'index.json.jbuilder'
-  end
+    @actors = current_user.actors
+    render "index.json.jbuilder"
+    end
 
   def show
     @actor = Actor.find_by(id: params[:id])
@@ -55,55 +59,6 @@ class Api::ActorsController < ApplicationController
 
 ##########################
 
-  def index_movie
-    @movies = Movie.where(english: true)
-    render 'index_movie.json.jbuilder'
-  end
-
-  def show_movie
-    @movie = Movie.find_by(id: params[:id])
-    render 'show_movie.json.jbuilder'
-  end
-
-  def create_movie
-    @movie = Movie.new(
-      title: params[:title],
-      director: params[:director],
-      year: params[:year],
-      plot: params[:plot],
-      english: params[:english]
-      )
-
-    if @movie.save
-      #happy path
-      render 'show_movie.json.jbuilder'
-    else
-      #sad path
-      render json: {errors: @movie.errors.full_messages}, status: :unprocessable_entity
-    end
-  end
-
-  def update_movie
-    @movie = Movie.find_by(id: params[:id])
-    @movie.title = params[:title] || @movie.title
-    @movie.director = params[:director] || @movie.director
-    @movie.year = params[:year] || @movie.year
-    @movie.plot = params[:plot] || @movie.plot
-    @movie.english = params[:english] || @movie.english
-
-    if @movie.save
-      #happy path
-      render 'show_movie.json.jbuilder'
-    else
-      #sad path
-      render json: {errors: @movie.errors.full_messages}, status: :unprocessable_entity
-    end
-  end
-
-  def destroy_movie
-    @movie = Movie.find_by(id: params[:id])
-    @movie.destroy
-    render json: {message: "#{@movie.title} successfully deleted."}
-  end
+  
 end
 

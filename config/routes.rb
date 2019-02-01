@@ -8,11 +8,20 @@ Rails.application.routes.draw do
   patch "actors/:id" => "actors#update"
   delete "actors/:id" => "actors#destroy"
 
-  get "movies" => "actors#index_movie"
-  get "movies/:id" => "actors#show_movie"
-  post "movies" => "actors#create_movie"
-  patch "movies/:id" => "actors#update_movie"
-  delete "movies/:id" => "actors#destroy_movie"
+  get "movies" => "movies#index"
+  get "movies/:id" => "movies#show"
+  post "movies" => "movies#create"
+  patch "movies/:id" => "movies#update"
+  delete "movies/:id" => "movies#destroy"
+
+  get "/users" => "users#index"
+  get "/users/:id" => "users#show"
+  post "/users" => "users#create"
+  get "/users" => "users#update"
+  get "/users" => "users#destroy"
+
+
+  post "/sessions" => "sessions#create"
 
   end
 end
