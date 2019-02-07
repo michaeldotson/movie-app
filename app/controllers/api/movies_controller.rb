@@ -2,13 +2,13 @@ class Api::MoviesController < ApplicationController
   before_action :authenticate_admin, except: [:index, :show]
   
   def index
-    @movies = Movie.where(english: true)
+    @movies = Movie.all
     render 'index.json.jbuilder'
   end
 
   def show
     @movie = Movie.find_by(id: params[:id])
-    render 'show.json.jbuilder'
+    render 'show.html.erb'
   end
 
   def create
@@ -17,7 +17,8 @@ class Api::MoviesController < ApplicationController
       director: params[:director],
       year: params[:year],
       plot: params[:plot],
-      english: params[:english]
+      english: params[:english],
+      genre: params[:genre]
       )
 
     if @movie.save
@@ -36,6 +37,7 @@ class Api::MoviesController < ApplicationController
     @movie.year = params[:year] || @movie.year
     @movie.plot = params[:plot] || @movie.plot
     @movie.english = params[:english] || @movie.english
+    @movie.genre = params[:genre] || @movie.genre
 
     if @movie.save
       #happy path
